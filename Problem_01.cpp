@@ -16,7 +16,7 @@ void print_vint(vector<int> v,int n){
 }
 bool posible(vector<cuerda> cuerdas,int n, int l);
 int matematico(vector<cuerda> cuerdas, int n, int l);
-int economista(vector<cuerda> cuerdas,int n, int l);
+EntInf economista(vector<cuerda> cuerdas,int n, int l);
 EntInf ingeniero(vector<cuerda> cuerdas, int n, int l);
 
 
@@ -34,7 +34,7 @@ int main(){
         }
 
         if(posible(cuerdas,n,l))
-        cout<<"SI "<<matematico(cuerdas,n,l)<<' '<<ingeniero(cuerdas,n,l)<<endl;//<<' '<<economista(cuerdas,n,l)<<endl;
+        cout<<"SI "<<matematico(cuerdas,n,l)<<" "<<ingeniero(cuerdas,n,l)<<" "<<economista(cuerdas,n,l)<<endl;
         else
             cout<<"NO\n";
     }
@@ -84,13 +84,12 @@ int matematico(vector<cuerda> cuerdas, int n, int l){
     v[0] = 1;//Solo se puede hacer una cuerda de longitud 0 de 1 manera, con 0 cuerdas
 
     for(int i=0;i<n;i++){
-        for(int j=l;j>=0;j--){
+        for(int j=l;j>=cuerdas[i].longitud;j--){
             int i_prev = j - cuerdas[i].longitud;
             v[j] += v[i_prev];
         }
     }
 
-    //print_vint(v,l+1);
     return v[l];
 }
 
@@ -98,17 +97,32 @@ int matematico(vector<cuerda> cuerdas, int n, int l){
 EntInf ingeniero(vector<cuerda> cuerdas, int n, int l){
 
     vector<EntInf> v(l+1,Infinito);
-    
+    v[0] = 0; 
 
     //Caso recursivo
     for(int i=0;i<n;i++){
-        cout<<"i: "<<i<<"\nj: "<<l<<"\nhasta: "<<cuerdas[i].longitud<<endl;
-        for(int j =l;l>=cuerdas[i].longitud;j--){
+        //lo hago con un while porque no se porque me rallo con el for
+        int j = l;
+        while(j>=cuerdas[i].longitud){
             int prev_index = j - cuerdas[i].longitud;
-            cout<<"prev_index: "<<prev_index<<endl;
             v[j] = min(v[j],v[prev_index]+1);
+            j--;
         }
     }
     //cout<<matriz;
+    return v[l];
+}
+
+EntInf economista(vector<cuerda> cuerdas, int n, int l){
+    vector<EntInf> v(l+1,Infinito);
+    v[0]=0; // Hacer una cuerda de longitud 0 cuesta 0 euros
+    
+    for(int i =0; i<n; i++){
+        for(int j = l;j>=cuerdas[i].longitud;j--){
+            int prev_index = j - cuerdas[i].longitud;
+            v[j] = min(v[j],v[prev_index]+cuerdas[i].precio);
+        }
+    }
+
     return v[l];
 }
