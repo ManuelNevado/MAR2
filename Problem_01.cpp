@@ -14,10 +14,10 @@ void print_vint(vector<int> v,int n){
         cout<<v[i]<<' ';
     cout<<'\n';
 }
-bool posible(vector<cuerda> const& cuerdas,int n, int l);
-int matematico(vector<cuerda> const& cuerdas, int n, int l);
-EntInf economista(vector<cuerda> const& cuerdas,int n, int l);
-EntInf ingeniero(vector<cuerda> const& cuerdas, int n, int l);
+bool posible(vector<cuerda> const& cuerdas,long long int n, long long int l);
+long long int matematico(vector<cuerda> const& cuerdas, long long int n, long long int l);
+EntInf economista(vector<cuerda> const& cuerdas,long long int n, long long int l);
+EntInf ingeniero(vector<cuerda> const& cuerdas, long long int n, long long int l);
 
 
 int main(){
@@ -43,7 +43,7 @@ int main(){
     return 0;
 }
 
-bool posible(vector<cuerda> const& cuerdas, int n, int l){
+bool posible(vector<cuerda> const& cuerdas, long long int n, long long int l){
     //Un vector con n columnas para la longitud
     Matriz<bool> matriz(n+1, l+1);
 
@@ -78,7 +78,7 @@ bool posible(vector<cuerda> const& cuerdas, int n, int l){
     return matriz[n][l];
 }
 
-int matematico(vector<cuerda> const& cuerdas, int n, int l){
+long long int matematico(vector<cuerda> const& cuerdas, long long int n, long long int l){
     vector<long long int> v(l+1,0);
     
     v[0] = 1;//Solo se puede hacer una cuerda de longitud 0 de 1 manera, con 0 cuerdas
@@ -94,7 +94,7 @@ int matematico(vector<cuerda> const& cuerdas, int n, int l){
 }
 
 
-EntInf ingeniero(vector<cuerda> const& cuerdas, int n, int l){
+EntInf ingeniero(vector<cuerda> const& cuerdas, long long int n, long long int l){
 
     vector<EntInf> v(l+1,Infinito);
     v[0] = 0; 
@@ -113,7 +113,7 @@ EntInf ingeniero(vector<cuerda> const& cuerdas, int n, int l){
     return v[l];
 }
 
-EntInf economista(vector<cuerda> const& cuerdas, int n, int l){
+EntInf economista(vector<cuerda> const& cuerdas, long long int n, long long int l){
     vector<EntInf> v(l+1,Infinito);
     v[0]=0; // Hacer una cuerda de longitud 0 cuesta 0 euros
     
