@@ -4,6 +4,15 @@
 #include "EnterosInf.h"
 #include <algorithm>
 
+template <typename T>
+void print_v(std::vector<T> sol){
+    for(int i=0;i<sol.size();i++){
+        std::cout<<" "<<sol[i];
+    }
+    std::cout<<std::endl;
+}
+
+EntInf max(EntInf const& a, EntInf const& b);
 void sol(int puntos, int n, std::vector<int> v);
 void reconstruir_sol(Matriz<EntInf> matriz, int puntos, int n, std::vector<int> v);
 
@@ -41,34 +50,47 @@ void sol(int puntos, int n, std::vector<int> v){
         }
     }
 
+    std::cout<< matriz;
     EntInf sol = matriz[n][puntos];
     if(sol != Infinito){
         std::cout<<sol<<":";
         reconstruir_sol(matriz,n,puntos,v);
-        std::cout<<std::endl;
     }else
         std::cout<<"Imposible\n";
     
 }
 
+EntInf max_elem(EntInf const& a, EntInf const& b){
+    if(a==b)
+        return b;
+    else
+        return std::max(a,b);
+}
+
 void reconstruir_sol(Matriz<EntInf> matriz, int n, int puntos, std::vector<int> v){
 
-    std::vector<int> sol;
+    std::vector<EntInf> sol;
     int i=n, j=puntos;
 
-    while(j>0){
-        if(v[i-1] <= j && matriz[i][j] != matriz[i-1][j]){
-            sol.push_back(v[i-1]);
-            std::cout<<v[i-1]<<" pushed\n";
-            j=j-v[i-1];
-        }else{
+    while(j>0 && i>0){
+        std::cout<<"Vector: \n";
+        print_v(sol);
+        std::cout<<"Current i,j: "<<i<<", "<<j<<std::endl;
+        if(v[i-1] <= j){
+            EntInf a = matriz[i-1][j];
+            EntInf b = matriz[i][j-v[i-1]];
+            EntInf max = max_elem(a,b);
+            if(max == a)
+                i--;
+            else{
+                sol.push_back(v[i-1]);
+                j -= v[i-1];
+            }
+        }else
             i--;
-        }
     }
+    
+    print_v(sol);
 
-    for(int i=0;i<sol.size();i++){
-        std::cout<<" "<<sol[i];
-    }
-    std::cout<<std::endl;
 }
 
