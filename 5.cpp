@@ -18,7 +18,7 @@ struct cofre{
     int oro;
 };
 
-void sol(int T, int N, std::vector<cofre> cofres);
+void sol(int T, int N, std::vector<cofre> const& cofres);
 
 int main(){
     int T, N;
@@ -34,7 +34,7 @@ int main(){
     }
 }
 
-void sol(int T, int N, std::vector<cofre> cofres){
+void sol(int T, int N, std::vector<cofre> const& cofres){
 
     Matriz<int> matriz(N+1, T+1, 0);
 
@@ -57,6 +57,26 @@ void sol(int T, int N, std::vector<cofre> cofres){
         }
     }
 
-    std::cout<<matriz[N][T]<<std::endl;
-    
+    //reconstruccion
+
+    int i = N;
+    int j = T;
+    std::vector<cofre> sol;
+    int n_cofres=0;
+
+    while(i>0 && j>0){
+        if(matriz[i][j] != matriz[i-1][j]){
+            sol.push_back(cofres[i-1]);
+            j -= cofres[i-1].p*3;
+            n_cofres++;
+        }
+        i--;
+    }
+
+
+    std::cout<<matriz[N][T]<<std::endl<<n_cofres<<std::endl;
+    for(int i=n_cofres-1;i>=0;i--){
+        std::cout<<sol[i].p<<' '<<sol[i].oro<<std::endl;
+    }
+    std::cout<<"---\n";
 }
