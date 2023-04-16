@@ -9,7 +9,7 @@ struct nodo{
     std::vector<bool> caminos;  //caminos que se han barrido
     int coste_real;             //valor de la solucion parcial
     int coste_estimado;         //valor de la mejor solucion estimada
-    bool operator>(nodo const& otro) const{return otro.coste_estimado>coste_estimado;}
+    bool operator>(nodo const& otro) const{return otro.coste_estimado > coste_estimado;}
 };  
 
 void print_caminos(std::vector<bool> const& v){
@@ -54,7 +54,7 @@ int recorrido(int n, int m, std::vector<int> const& carros, std::vector<int> con
     
 
     //creamos la variable minima y la cola de prioridad
-    int min = 0;
+    int max = 0;
     std::priority_queue<nodo> q;
     nodo sol_mejor;
     
@@ -71,7 +71,7 @@ int recorrido(int n, int m, std::vector<int> const& carros, std::vector<int> con
     q.push(er_cabesa);
 
     //Empezamos el bucle
-    while(!q.empty() && q.top().coste_estimado > min){
+    while(!q.empty() && q.top().coste_estimado > max){
 
         nodo Y = q.top();
         q.pop();
@@ -85,8 +85,8 @@ int recorrido(int n, int m, std::vector<int> const& carros, std::vector<int> con
                 X.coste_real += matriz[X.k][i];
                 X.coste_estimado = estimar_coste(n,m,matriz,X);
                 
-                if(es_solucion(X,n) && X.coste_real < min){
-                    min = X.coste_real;
+                if(es_solucion(X,n) && X.coste_real < max){
+                    max = X.coste_real;
                     sol_mejor = X;
                 }else if(X.coste_estimado > max){
                     q.push(X);
@@ -96,7 +96,7 @@ int recorrido(int n, int m, std::vector<int> const& carros, std::vector<int> con
         }
     }
 
-    return min;
+    return max;
 }
 
 
